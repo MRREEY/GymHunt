@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeTab from './tabs/HomeTab';
 import WorkoutsTab from './tabs/WorkoutsTab';
 import ProgressTab from './tabs/ProgressTab';
+import MapTab from './tabs/MapTab.js';
 import SettingsTab from './tabs/SettingsTab';
 
 // https://oblador.github.io/react-native-vector-icons/
@@ -28,6 +29,8 @@ export default function App() {
               iconName = focused ? 'barbell' : 'barbell-outline';
             } else if (route.name === 'Progress') {
               iconName = focused ? 'stats-chart' : 'stats-chart-outline';
+            } else if (route.name === 'Map') {
+              iconName = focused ? 'map' : 'map-outline';
             } else if (route.name === 'Settings') {
               iconName = focused ? 'settings' : 'settings-outline';
             }
@@ -50,6 +53,7 @@ export default function App() {
       >
         <Tab.Screen name="Home" component={HomeTab} />
         <Tab.Screen name="Workouts" component={WorkoutsTab} />
+        <Tab.Screen name="Map" component={MapTab} />
         <Tab.Screen name="Progress" component={ProgressTab} />
         <Tab.Screen name="Settings" component={SettingsTab} />
       </Tab.Navigator>

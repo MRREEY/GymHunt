@@ -37,19 +37,16 @@ export default function App() {
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-        })}
-        tabBarOptions={{
-          activeTintColor: '#555',
-          inactiveTintColor: '#333',
-          style: {
-            backgroundColor: '#000',
-            height: 50,
-          },
-          labelStyle: {
+          tabBarActiveTintColor: '#555',
+          tabBarInactiveTintColor: '#333',
+          tabBarLabelStyle: {
             fontSize: 12,
             marginTop: 5,
           },
-        }}
+          tabBarStyle: {
+            display: 'flex',
+          },
+        })}
       >
         <Tab.Screen name="Home" component={HomeTab} />
         <Tab.Screen name="Workouts" component={WorkoutsTab} />

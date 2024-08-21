@@ -1,26 +1,25 @@
-// SettingsTab.js
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
+import { globalStyles } from '../styles';
 
-const SettingsTab = () => {
+const SettingsTab = ({ toggleTheme, isDarkMode }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Dit is Settings Tab</Text>
-    </View>
+    <SafeAreaView style={[globalStyles.container, isDarkMode ? globalStyles.darkContainer : globalStyles.lightContainer]}>
+      {/* Tekst die de huidige modus aangeeft */}
+      <Text style={[globalStyles.text, isDarkMode ? globalStyles.darkText : globalStyles.lightText]}>
+        Darkmode
+      </Text>
+      {/* Toggle button voor het wisselen van thema */}
+      <TouchableOpacity 
+        style={[globalStyles.button, isDarkMode ? globalStyles.darkButton : globalStyles.lightButton]}
+        onPress={toggleTheme}
+      >
+        <Text style={[globalStyles.buttonText, isDarkMode ? globalStyles.darkButtonText : globalStyles.lightButtonText]}>
+          {isDarkMode ? 'Schakel naar Light Mode' : 'Schakel naar Dark Mode'}
+        </Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#000', // Achtergrondkleur content
-  },
-  text: {
-    color: '#fff', // Tekstkleur wit
-    fontSize: 18,
-  },
-});
 
 export default SettingsTab;

@@ -1,0 +1,26 @@
+[
+    {
+      "name": "Basic fit Metaalhof",
+      "category": "Sportschool",
+      "coordinate": {
+        "latitude": 51.94864517449056,
+        "longitude": 4.544170955606103
+      }
+    },
+    {
+      "name": "DPFC Health Fit & Dance",
+      "category": "Dansschool",
+      "coordinate": {
+        "latitude": 51.94220268269431, 
+        "longitude": 4.551890225139015
+      }
+    },
+    {
+      "name": "Kollmann - Sports & Health Centre",
+      "category": "Pilatesstudio",
+      "coordinate": {
+        "latitude": 51.939396708507665,
+        "longitude": 4.545554822603045
+      }
+    }
+  ]

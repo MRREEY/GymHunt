@@ -1,26 +1,15 @@
-// HomeTab.js
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
+import { globalStyles } from '../styles';
 
-const HomeTab = () => {
+const HomeTab = ({ isDarkMode }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Dit is Home Tab</Text>
+    <View style={[globalStyles.container, isDarkMode ? globalStyles.darkContainer : globalStyles.lightContainer]}>
+      <Text style={[globalStyles.text, isDarkMode ? globalStyles.darkText : globalStyles.lightText]}>
+        Welkom bij Home
+      </Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#000', // Achtergrondkleur content
-  },
-  text: {
-    color: '#fff', // Tekstkleur wit
-    fontSize: 18,
-  },
-});
 
 export default HomeTab;

@@ -1,8 +1,7 @@
-// import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
-
-import React, { useState } from 'react';
-import { DarkTheme, NavigationContainer } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HomeTab from './tabs/HomeTab';
 import WorkoutsTab from './tabs/WorkoutsTab';
@@ -10,14 +9,32 @@ import ProgressTab from './tabs/ProgressTab';
 import MapTab from './tabs/MapTab.js';
 import SettingsTab from './tabs/SettingsTab';
 
-// https://oblador.github.io/react-native-vector-icons/
 import { Ionicons } from '@expo/vector-icons'; // Iconen voor de tabs
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useEffect(() => {
+    // Haal de opgeslagen modus 1x op bij het opstarten van de app
+    const loadMode = async () => {
+      const savedMode = await AsyncStorage.getItem('darkMode');
+      if (savedMode !== null) {
+        setIsDarkMode(JSON.parse(savedMode));
+      }
+    };
+    loadMode();
+  }, []);
+
+  const toggleTheme = async () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    await AsyncStorage.setItem('darkMode', JSON.stringify(newMode));
+  };
+
   return (
-    <NavigationContainer theme={DarkTheme}>
+    <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -37,22 +54,24 @@ export default function App() {
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#555',
-          tabBarInactiveTintColor: '#333',
-          tabBarLabelStyle: {
-            fontSize: 12,
-            marginTop: 5,
-          },
+          tabBarActiveTintColor: isDarkMode ? '#fff' : '#000',
+          tabBarInactiveTintColor: isDarkMode ? '#888' : '#888',
           tabBarStyle: {
-            display: 'flex',
+            backgroundColor: isDarkMode ? '#000' : '#fff',
           },
         })}
       >
-        <Tab.Screen name="Home" component={HomeTab} />
+        <Tab.Screen name="Home">
+          {props => <HomeTab {...props} isDarkMode={isDarkMode} />}
+        </Tab.Screen>
         <Tab.Screen name="Workouts" component={WorkoutsTab} />
         <Tab.Screen name="Map" component={MapTab} />
-        <Tab.Screen name="Progress" component={ProgressTab} />
-        <Tab.Screen name="Settings" component={SettingsTab} />
+        <Tab.Screen name="Progress">
+          {props => <ProgressTab {...props} isDarkMode={isDarkMode} />}
+        </Tab.Screen>
+        <Tab.Screen name="Settings">
+          {props => <SettingsTab {...props} toggleTheme={toggleTheme} isDarkMode={isDarkMode} />}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

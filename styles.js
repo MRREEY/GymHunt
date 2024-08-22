@@ -91,59 +91,55 @@ export const mapStyles = (isDarkMode) => StyleSheet.create({
 });
 
 //WorkoutsTab.js
-export const workoutStyles = StyleSheet.create({
+export const workoutStyles = (isDarkMode) => StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    padding: 20,
+    backgroundColor: isDarkMode ? '#000' : '#fff', // Black in dark mode, white in light mode
   },
   inputContainer: {
     marginBottom: 20,
   },
   input: {
     height: 40,
-    borderColor: '#ccc',
+    borderColor: isDarkMode ? '#555' : '#ccc', // Dark border in dark mode, light in light mode
     borderWidth: 1,
     borderRadius: 5,
-    marginBottom: 10,
     paddingHorizontal: 10,
-    color: '#fff',
+    marginBottom: 10,
+    color: isDarkMode ? '#fff' : '#000', // White text in dark mode, black in light mode
   },
   addButton: {
-    backgroundColor: '#007bff',
-    paddingVertical: 10,
+    backgroundColor: '#007bff', // Blue button background
+    padding: 10,
     borderRadius: 5,
-    alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: '#fff', // White text on button
+    textAlign: 'center',
   },
   exercisesContainer: {
     flex: 1,
   },
   exerciseItem: {
-    backgroundColor: '#f9f9f9',
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,
+    backgroundColor: isDarkMode ? '#333' : '#fbfcf8', // Dark container in dark mode, light in light mode
   },
   exerciseText: {
-    fontWeight: 'bold',
+    color: isDarkMode ? '#fff' : '#000', // White text in dark mode, black in light mode
   },
   removeButton: {
-    backgroundColor: '#ff4d4d',
-    padding: 5,
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#dc3545', // Red button background
     borderRadius: 5,
-    alignItems: 'center',
-    marginTop: 5,
   },
   clearButton: {
-    backgroundColor: '#ff4d4d',
-    paddingVertical: 10,
-    borderRadius: 5,
-    alignItems: 'center',
     marginTop: 20,
-    marginBottom: 20,
+    padding: 10,
+    backgroundColor: '#007bff', // Blue button background
+    borderRadius: 5,
   },
 });

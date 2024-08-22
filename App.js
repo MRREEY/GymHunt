@@ -69,7 +69,9 @@ export default function App() {
         <Tab.Screen name="Home">
           {props => <HomeTab {...props} isDarkMode={isDarkMode} />}
         </Tab.Screen>
-        <Tab.Screen name="Workouts" component={WorkoutsTab} />
+        <Tab.Screen name="Workouts">
+          {props => <WorkoutsTab {...props} isDarkMode={isDarkMode}/>}
+          </Tab.Screen>
         <Tab.Screen name="Map">
           {props => <MapTab {...props} isDarkMode={isDarkMode} />}
           </Tab.Screen>

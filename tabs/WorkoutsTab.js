@@ -1,10 +1,11 @@
+// WorkoutsTab.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { workoutStyles } from '../styles';
 
-export default function WorkoutsTab() {
+export default function WorkoutsTab({ isDarkMode }) {
   const [exercises, setExercises] = useState([]);
   const [exerciseName, setExerciseName] = useState('');
   const [sets, setSets] = useState('');
@@ -63,18 +64,18 @@ export default function WorkoutsTab() {
         // Toon een bevestigingsbericht
         alert('Exercise added successfully!');
       } else {
-      // Toon een foutbericht
+        // Toon een foutbericht
         alert('Error adding exercise: ' + response.statusText);
       }
     } catch (error) {
-    // Controleer of de fout is veroorzaakt door een gebrek aan internetverbinding 
+      // Controleer of de fout is veroorzaakt door een gebrek aan internetverbinding 
       if (!navigator.onLine) {
         // Sla de oefening lokaal op als er geen internetverbinding beschikbaar is
         const updatedExercises = [...exercises, newExercise];
         setExercises(updatedExercises);
         storeExercises(updatedExercises);
       } else {
-      // Toon een foutbericht als er een andere fout is opgetreden
+        // Toon een foutbericht als er een andere fout is opgetreden
         alert('Error adding exercise: ' + error.message);
       }
     }
@@ -92,58 +93,58 @@ export default function WorkoutsTab() {
   };
 
   return (
-    <View style={workoutStyles.container}>
-      <View style={workoutStyles.inputContainer}>
+    <View style={workoutStyles(isDarkMode).container}>
+      <View style={workoutStyles(isDarkMode).inputContainer}>
         <TextInput
-          style={workoutStyles.input}
+          style={workoutStyles(isDarkMode).input}
           placeholder="Exercise"
-          placeholderTextColor={'#9a7324'}
+          placeholderTextColor={isDarkMode ? '#aaa' : '#999'} // Light placeholder in dark mode, dark in light mode
           value={exerciseName}
           onChangeText={(text) => setExerciseName(text)}
         />
         <TextInput
-          style={workoutStyles.input}
+          style={workoutStyles(isDarkMode).input}
           placeholder="Sets"
-          placeholderTextColor={'#9a7324'}
+          placeholderTextColor={isDarkMode ? '#aaa' : '#999'} // Light placeholder in dark mode, dark in light mode
           keyboardType="numeric"
           value={sets}
           onChangeText={(text) => setSets(text)}
         />
         <TextInput
-          style={workoutStyles.input}
+          style={workoutStyles(isDarkMode).input}
           placeholder="Repetitions"
-          placeholderTextColor={'#9a7324'}
+          placeholderTextColor={isDarkMode ? '#aaa' : '#999'} // Light placeholder in dark mode, dark in light mode
           keyboardType="numeric"
           value={repetitions}
           onChangeText={(text) => setRepetitions(text)}
         />
         <TextInput
-          style={workoutStyles.input}
+          style={workoutStyles(isDarkMode).input}
           placeholder="Weight (kg)"
-          placeholderTextColor={'#9a7324'}
+          placeholderTextColor={isDarkMode ? '#aaa' : '#999'} // Light placeholder in dark mode, dark in light mode
           keyboardType="numeric"
           value={weight}
           onChangeText={(text) => setWeight(text)}
         />
-        <TouchableOpacity style={workoutStyles.addButton} onPress={addExercise}>
-          <Text style={workoutStyles.buttonText}>Add Exercise</Text>
+        <TouchableOpacity style={workoutStyles(isDarkMode).addButton} onPress={addExercise}>
+          <Text style={workoutStyles(isDarkMode).buttonText}>Add Exercise</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView style={workoutStyles.exercisesContainer}>
+      <ScrollView style={workoutStyles(isDarkMode).exercisesContainer}>
         {exercises.map((exercise, index) => (
-          <View key={index} style={workoutStyles.exerciseItem}>
-            <Text style={workoutStyles.exerciseText}>{exercise.name}</Text>
-            <Text style={workoutStyles.exerciseText}>
+          <View key={index} style={workoutStyles(isDarkMode).exerciseItem}>
+            <Text style={workoutStyles(isDarkMode).exerciseText}>{exercise.name}</Text>
+            <Text style={workoutStyles(isDarkMode).exerciseText}>
               {exercise.sets} sets - {exercise.repetitions} reps - {exercise.weight} kg
             </Text>
-            <TouchableOpacity style={workoutStyles.removeButton} onPress={() => removeExercise(index)}>
-              <Text style={workoutStyles.buttonText}>Remove</Text>
+            <TouchableOpacity style={workoutStyles(isDarkMode).removeButton} onPress={() => removeExercise(index)}>
+              <Text style={workoutStyles(isDarkMode).buttonText}>Remove</Text>
             </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
-      <TouchableOpacity style={workoutStyles.clearButton} onPress={clearAllExercises}>
-        <Text style={workoutStyles.buttonText}>Clear All Exercises</Text>
+      <TouchableOpacity style={workoutStyles(isDarkMode).clearButton} onPress={clearAllExercises}>
+        <Text style={workoutStyles(isDarkMode).buttonText}>Clear All Exercises</Text>
       </TouchableOpacity>
     </View>
   );

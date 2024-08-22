@@ -1,10 +1,11 @@
+// MapTab.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import { mapStyles } from '../styles';
+import { mapStyles } from '../styles'; // Zorg ervoor dat dit pad klopt
 
-export default function MapTab({ route }) {
+export default function MapTab({ route, isDarkMode }) {
   const { selectedHotspot } = route.params || {}; // Get the selected hotspot vanuit route params
 
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -67,21 +68,21 @@ export default function MapTab({ route }) {
   }, [selectedHotspot]);
 
   return (
-    <View style={mapStyles.mapContainer}>
+    <View style={{ flex: 1 }}>
       <MapView 
-        style={mapStyles.map} 
+        style={{ flex: 1 }} 
         initialRegion={mapRegion}
         region={mapRegion}
       >
         {/* Trainingsstudio's markers */}
         {markersData.map((marker, index) => (
           <Marker
-          key={index}
-          coordinate={marker.coordinate}
-          title={marker.name}
-          description={marker.category}
-          image={require('../assets/marker_gyms.png')}
-          onPress={() => setSelectedMarker(marker)} // Set marker on press pin
+            key={index}
+            coordinate={marker.coordinate}
+            title={marker.name}
+            description={marker.category}
+            image={require('../assets/marker_gyms.png')}
+            onPress={() => setSelectedMarker(marker)} // Set marker on press pin
           />
         ))}
         {/* User marker */}
@@ -97,11 +98,11 @@ export default function MapTab({ route }) {
 
       {/* Info box for the selected marker */}
       {selectedMarker && (
-        <View style={mapStyles.infoBox}>
-          <Text style={mapStyles.infoTitle}>{selectedMarker.name}</Text>
-          <Text style={mapStyles.infoCategory}>{selectedMarker.category}</Text>
-          <TouchableOpacity style={mapStyles.closeButton} onPress={() => setSelectedMarker(null)}>
-            <Text style={mapStyles.closeButtonText}>Close</Text>
+        <View style={mapStyles(isDarkMode).infoBox}>
+          <Text style={mapStyles(isDarkMode).infoTitle}>{selectedMarker.name}</Text>
+          <Text style={mapStyles(isDarkMode).infoCategory}>{selectedMarker.category}</Text>
+          <TouchableOpacity style={mapStyles(isDarkMode).closeButton} onPress={() => setSelectedMarker(null)}>
+            <Text style={mapStyles(isDarkMode).closeButtonText}>Close</Text>
           </TouchableOpacity>
         </View>
       )}

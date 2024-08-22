@@ -53,45 +53,40 @@ export const globalStyles = StyleSheet.create({
 });
 
 //Stylesheet MapTab.js
-export const mapStyles = StyleSheet.create({
-  map: {
+export const mapStyles = (isDarkMode) => StyleSheet.create({
+  mapContainer: {
     flex: 1,
   },
-  mapContainer: {
+  map: {
     flex: 1,
   },
   infoBox: {
     position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
-    padding: 15,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
+    bottom: 10,
+    left: 10,
+    right: 10,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: isDarkMode ? '#333' : '#fff', // Black in dark mode, white in light mode
   },
   infoTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: isDarkMode ? '#fff' : '#000', // White text in dark mode, black text in light mode
   },
   infoCategory: {
     fontSize: 14,
-    color: '#666',
+    color: isDarkMode ? '#ccc' : '#555', // Light grey text in dark mode, dark grey in light mode
   },
   closeButton: {
     marginTop: 10,
     padding: 10,
-    backgroundColor: '#007bff',
+    backgroundColor: '#007bff', // Blue button background
     borderRadius: 5,
-    alignItems: 'center',
   },
   closeButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: '#fff', // White text on the button
+    textAlign: 'center',
   },
 });
 

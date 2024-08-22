@@ -95,6 +95,7 @@ export const mapStyles = StyleSheet.create({
   },
 });
 
+//WorkoutsTab.js
 export const workoutStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -134,5 +135,20 @@ export const workoutStyles = StyleSheet.create({
   },
   exerciseText: {
     fontWeight: 'bold',
-  }
+  },
+  removeButton: {
+    backgroundColor: '#ff4d4d',
+    padding: 5,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  clearButton: {
+    backgroundColor: '#ff4d4d',
+    paddingVertical: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
 });

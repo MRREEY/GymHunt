@@ -1,11 +1,12 @@
-import { View, Text, StyleSheet } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-
 import { mapStyles } from '../styles';
 
-export default function Map() {
+export default function MapTab({ route }) {
+  const { selectedHotspot } = route.params || {}; // Get the selected hotspot from route params
+
   const [currentLocation, setCurrentLocation] = useState(null);
   const [mapRegion, setMapRegion] = useState({
     latitude: 0,
@@ -30,14 +31,14 @@ export default function Map() {
       setMapRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
       });
     })();
   }, []);
 
-   // Fetch data van webservice
-   useEffect(() => {
+  // Fetch data from web service
+  useEffect(() => {
     const fetchMarkersData = async () => {
       try {
         const response = await fetch('https://stud.hosted.hr.nl/0991841/Trainingsstudio.json');
@@ -50,6 +51,18 @@ export default function Map() {
 
     fetchMarkersData();
   }, []);
+
+  useEffect(() => {
+    if (selectedHotspot) {
+      // Zoom in on the selected hotspot
+      setMapRegion({
+        latitude: selectedHotspot.coordinate.latitude,
+        longitude: selectedHotspot.coordinate.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+    }
+  }, [selectedHotspot]);
 
   return (
     <View style={mapStyles.mapContainer}>
@@ -65,7 +78,6 @@ export default function Map() {
             title={marker.name}
             description={marker.category}
             image={require('../assets/marker_gyms.png')}
-
           />
         ))}
         {currentLocation && (
@@ -80,3 +92,12 @@ export default function Map() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  map: {
+    flex: 1,
+  },
+  mapContainer: {
+    flex: 1,
+  },
+});

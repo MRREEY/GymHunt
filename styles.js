@@ -37,7 +37,19 @@ export const globalStyles = StyleSheet.create({
   lightButtonText: {
     color: '#000', // Tekstkleur van de button in Light Mode (zwart)
   },
-  // Voeg hier andere stijlen toe
+  item: {
+    padding: 15,
+    borderBottomWidth: 1,
+  },
+  darkItem: {
+    borderBottomColor: '#444',
+  },
+  lightItem: {
+    borderBottomColor: '#ccc',
+  },
+  itemText: {
+    fontSize: 16,
+  },
 });
 
 export const mapStyles = StyleSheet.create({

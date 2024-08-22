@@ -52,13 +52,46 @@ export const globalStyles = StyleSheet.create({
   },
 });
 
+//Stylesheet MapTab.js
 export const mapStyles = StyleSheet.create({
-  mapContainer: {
-    height: '100%',
-    width: '100%',
-  },
   map: {
     flex: 1,
+  },
+  mapContainer: {
+    flex: 1,
+  },
+  infoBox: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+    padding: 15,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  infoTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  infoCategory: {
+    fontSize: 14,
+    color: '#666',
+  },
+  closeButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#007bff',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 

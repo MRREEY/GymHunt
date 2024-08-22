@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { mapStyles } from '../styles';
 
 export default function MapTab({ route }) {
-  const { selectedHotspot } = route.params || {}; // Get the selected hotspot from route params
+  const { selectedHotspot } = route.params || {}; // Get the selected hotspot vanuit route params
 
   const [currentLocation, setCurrentLocation] = useState(null);
   const [mapRegion, setMapRegion] = useState({
@@ -16,6 +16,7 @@ export default function MapTab({ route }) {
   });
 
   const [markersData, setMarkersData] = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState(null); // State to track the selected marker
 
   // Get the current location
   useEffect(() => {
@@ -61,6 +62,7 @@ export default function MapTab({ route }) {
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       });
+      setSelectedMarker(selectedHotspot); // Set the selected hotspot
     }
   }, [selectedHotspot]);
 
@@ -71,15 +73,18 @@ export default function MapTab({ route }) {
         initialRegion={mapRegion}
         region={mapRegion}
       >
+        {/* Trainingsstudio's markers */}
         {markersData.map((marker, index) => (
           <Marker
-            key={index}
-            coordinate={marker.coordinate}
-            title={marker.name}
-            description={marker.category}
-            image={require('../assets/marker_gyms.png')}
+          key={index}
+          coordinate={marker.coordinate}
+          title={marker.name}
+          description={marker.category}
+          image={require('../assets/marker_gyms.png')}
+          onPress={() => setSelectedMarker(marker)} // Set marker on press pin
           />
         ))}
+        {/* User marker */}
         {currentLocation && (
           <Marker
             coordinate={currentLocation}
@@ -89,15 +94,17 @@ export default function MapTab({ route }) {
           />
         )}
       </MapView>
+
+      {/* Info box for the selected marker */}
+      {selectedMarker && (
+        <View style={mapStyles.infoBox}>
+          <Text style={mapStyles.infoTitle}>{selectedMarker.name}</Text>
+          <Text style={mapStyles.infoCategory}>{selectedMarker.category}</Text>
+          <TouchableOpacity style={mapStyles.closeButton} onPress={() => setSelectedMarker(null)}>
+            <Text style={mapStyles.closeButtonText}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  map: {
-    flex: 1,
-  },
-  mapContainer: {
-    flex: 1,
-  },
-});

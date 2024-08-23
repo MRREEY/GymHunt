@@ -133,13 +133,13 @@ export const workoutStyles = (isDarkMode) => StyleSheet.create({
   removeButton: {
     marginTop: 10,
     padding: 10,
-    backgroundColor: '#dc3545', // Red button background
+    backgroundColor: '#dc3545', // Red "Remove" button background
     borderRadius: 5,
   },
   clearButton: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: '#007bff', // Blue button background
+    backgroundColor: '#dc3545', // Red "Clear All" button background
     borderRadius: 5,
   },
 });

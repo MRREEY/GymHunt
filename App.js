@@ -11,7 +11,7 @@ import SettingsTab from './tabs/SettingsTab';
 
 import { Ionicons } from '@expo/vector-icons'; // Iconen voor de tabs
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator(); //Aanmaak bottom navigator
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -27,12 +27,15 @@ export default function App() {
     loadMode();
   }, []);
 
+  // Functie switchen thema
   const toggleTheme = async () => {
     const newMode = !isDarkMode;
     setIsDarkMode(newMode);
+    // Opslaan nieuwe modus in AsynchStorage voor vervolg sessie
     await AsyncStorage.setItem('darkMode', JSON.stringify(newMode));
   };
 
+  //statusbar op basis van modus
   return (
     <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
       <StatusBar 
@@ -40,7 +43,9 @@ export default function App() {
         backgroundColor={isDarkMode ? '#000' : '#fff'}
       />
       <Tab.Navigator
-        screenOptions={({ route }) => ({
+        screenOptions={({ route }) => 
+          ({
+            //Iconen instellen op basis van de naam route
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
@@ -54,8 +59,10 @@ export default function App() {
               iconName = focused ? 'settings' : 'settings-outline';
             }
 
+            //return Ionicon met naam en stijl
             return <Ionicons name={iconName} size={size} color={color} />;
           },
+          //Instellingen actief en inactief kleur van tabbar
           tabBarActiveTintColor: isDarkMode ? '#fff' : '#000',
           tabBarInactiveTintColor: isDarkMode ? '#888' : '#888',
           tabBarStyle: {
@@ -63,6 +70,7 @@ export default function App() {
           },
         })}
       >
+        {/* Definieer tabs met bijbehorende componenten en props voor modus */}
         <Tab.Screen name="Home">
           {props => <HomeTab {...props} isDarkMode={isDarkMode} />}
         </Tab.Screen>

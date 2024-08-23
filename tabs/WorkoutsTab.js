@@ -1,4 +1,3 @@
-// WorkoutsTab.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -6,6 +5,7 @@ import axios from 'axios';
 import { workoutStyles } from '../styles';
 
 export default function WorkoutsTab({ isDarkMode }) {
+  // States om verschillende gegevens op te slaan in de component
   const [exercises, setExercises] = useState([]);
   const [exerciseName, setExerciseName] = useState('');
   const [sets, setSets] = useState('');
@@ -17,17 +17,19 @@ export default function WorkoutsTab({ isDarkMode }) {
     retrieveExercises();
   }, []);
 
+  // Functie opgeslagen oefeningen op te halen AsyncStorage
   const retrieveExercises = async () => {
     try {
       const storedExercises = await AsyncStorage.getItem('workoutExercises');
       if (storedExercises !== null) {
-        setExercises(JSON.parse(storedExercises));
+        setExercises(JSON.parse(storedExercises)); // Opgehaalde oefeningen in de state zetten
       }
     } catch (error) {
-      console.error('Error retrieving exercises:', error);
+      console.error('Error ophalen exercises:', error);
     }
   };
 
+  // Functie om oefeningen op te slaan AsyncStorage
   const storeExercises = async (updatedExercises) => {
     try {
       await AsyncStorage.setItem('workoutExercises', JSON.stringify(updatedExercises));
@@ -36,64 +38,53 @@ export default function WorkoutsTab({ isDarkMode }) {
     }
   };
 
+  // Functie om een nieuwe oefening toe te voegen
   const addExercise = async () => {
+    // Controleren of alle input velden ingevuld zijn
     if (exerciseName.trim() === '' || sets.trim() === '' || repetitions.trim() === '' || weight.trim() === '') {
-      alert('Please fill in all fields.');
+      alert('Please fill in all fields.'); //pop-up als niet alles ingevuld is
       return;
     }
 
+    // Maak nieuwe oefeningobject aan
     const newExercise = {
       name: exerciseName,
-      sets: parseInt(sets),
-      repetitions: parseInt(repetitions),
-      weight: parseInt(weight),
+      sets: parseInt(sets), // integer voor sets
+      repetitions: parseInt(repetitions), // integer voor reps
+      weight: parseInt(weight), // integer voor gewicht
     };
 
-    try {
-      // Verzend een POST-verzoek naar de webservice om de oefening op te slaan
-      const response = await axios.post('https://example.com/api/exercises', newExercise);
-
-      // Controleer of het verzoek succesvol is verwerkt
-      if (response.status === 200) {
-        // Wis de invoervelden
-        setExerciseName('');
-        setSets('');
-        setRepetitions('');
-        setWeight('');
-
-        // Toon een bevestigingsbericht
-        alert('Exercise added successfully!');
-      } else {
-        // Toon een foutbericht
-        alert('Error adding exercise: ' + response.statusText);
-      }
-    } catch (error) {
-      // Controleer of de fout is veroorzaakt door een gebrek aan internetverbinding 
-      if (!navigator.onLine) {
-        // Sla de oefening lokaal op als er geen internetverbinding beschikbaar is
-        const updatedExercises = [...exercises, newExercise];
-        setExercises(updatedExercises);
-        storeExercises(updatedExercises);
-      } else {
-        // Toon een foutbericht als er een andere fout is opgetreden
-        alert('Error adding exercise: ' + error.message);
-      }
-    }
-  };
-
-  const removeExercise = async (index) => {
-    const updatedExercises = exercises.filter((_, i) => i !== index);
+    // Voeg de nieuwe oefening toe aan de lijst met oefeningen
+    const updatedExercises = [...exercises, newExercise];
     setExercises(updatedExercises);
     await storeExercises(updatedExercises);
+ 
+    // Wis de invoervelden na het toevoegen
+    setExerciseName('');
+    setSets('');
+    setRepetitions('');
+    setWeight('');
+ 
+    // Toon een bevestigingsbericht
+    alert('Workout is toegevoegd!');
+   };
+
+  // Functie verwijderen oefeningen
+  const removeExercise = async (index) => {
+    const updatedExercises = exercises.filter((_, i) => i !== index); // Filteren oefeningen
+    setExercises(updatedExercises); // Bijwerken lijst
+    await storeExercises(updatedExercises); // Opslaan bijgewerkte versie lijst
   };
 
+  // Functie alles wissen
   const clearAllExercises = async () => {
-    setExercises([]);
-    await AsyncStorage.removeItem('workoutExercises');
+    setExercises([]); //Leeg lijst
+    await AsyncStorage.removeItem('workoutExercises'); //Verwijderen uit AsyncStorage
   };
 
   return (
     <View style={workoutStyles(isDarkMode).container}>
+      {/* Invoerveld oefeningen */}
       <View style={workoutStyles(isDarkMode).inputContainer}>
         <TextInput
           style={workoutStyles(isDarkMode).input}
@@ -130,6 +121,7 @@ export default function WorkoutsTab({ isDarkMode }) {
           <Text style={workoutStyles(isDarkMode).buttonText}>Add Exercise</Text>
         </TouchableOpacity>
       </View>
+      {/* Oefeningenlijst */}
       <ScrollView style={workoutStyles(isDarkMode).exercisesContainer}>
         {exercises.map((exercise, index) => (
           <View key={index} style={workoutStyles(isDarkMode).exerciseItem}>
@@ -143,6 +135,7 @@ export default function WorkoutsTab({ isDarkMode }) {
           </View>
         ))}
       </ScrollView>
+      {/* Knoppie om alle oefeningen te wissen */}
       <TouchableOpacity style={workoutStyles(isDarkMode).clearButton} onPress={clearAllExercises}>
         <Text style={workoutStyles(isDarkMode).buttonText}>Clear All Exercises</Text>
       </TouchableOpacity>

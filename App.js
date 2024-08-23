@@ -6,7 +6,6 @@ import { StatusBar } from 'react-native'; // Import StatusBar
 
 import HomeTab from './tabs/HomeTab';
 import WorkoutsTab from './tabs/WorkoutsTab';
-import ProgressTab from './tabs/ProgressTab';
 import MapTab from './tabs/MapTab.js';
 import SettingsTab from './tabs/SettingsTab';
 
@@ -49,8 +48,6 @@ export default function App() {
               iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Workouts') {
               iconName = focused ? 'barbell' : 'barbell-outline';
-            } else if (route.name === 'Progress') {
-              iconName = focused ? 'stats-chart' : 'stats-chart-outline';
             } else if (route.name === 'Map') {
               iconName = focused ? 'map' : 'map-outline';
             } else if (route.name === 'Settings') {
@@ -75,9 +72,6 @@ export default function App() {
         <Tab.Screen name="Map">
           {props => <MapTab {...props} isDarkMode={isDarkMode} />}
           </Tab.Screen>
-        <Tab.Screen name="Progress">
-          {props => <ProgressTab {...props} isDarkMode={isDarkMode} />}
-        </Tab.Screen>
         <Tab.Screen name="Settings">
           {props => <SettingsTab {...props} toggleTheme={toggleTheme} isDarkMode={isDarkMode} />}
         </Tab.Screen>
